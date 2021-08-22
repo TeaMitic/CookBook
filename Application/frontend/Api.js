@@ -181,10 +181,12 @@ export class Api{
                     return true;
                 }
                 case 400 : {
-                    alert(`Client error: ${response.text()}`);
+                    alert(`Client error: ${await response.text()}`);
+                    return false;
                 }
                 default : {
-                    alert(`Server error: ${response.text()}`);
+                    alert(`Server error: ${await response.text()}`);
+                    return false;
                 }
             }
         }
@@ -210,10 +212,12 @@ export class Api{
                     return true;
                 }
                 case 400 : {
-                    alert(`Client error: ${response.text()}`);
+                    alert(`Client error: ${await response.text()}`);
+                    return false;
                 }
                 default : {
-                    alert(`Server error: ${response.text()}`);
+                    alert(`Server error: ${await response.text()}`);
+                    return false;
                 }
             }
         }
@@ -277,10 +281,12 @@ export class Api{
                     return true;
                 }
                 case 400 : {
-                    alert(`Client error: ${response.text()}`);
+                    alert(`Client error: ${await response.text()}`);
+                    return false;
                 }
                 default : {
-                    alert(`Server error: ${response.text()}`);
+                    alert(`Server error: ${await response.text()}`);
+                    return false;
                 }
             }
         }

@@ -744,10 +744,10 @@ async function dodajReceptFunc(){
 
 async function dodajReceptDB(){
     let divListaRecepta=document.querySelector(".divListaRecepta");
-    let postupak= document.querySelector(".inputPostupak").value;
-    let naziv = document.querySelector(".inputNazivRecepta").value;
-    let vreme = document.querySelector(".inputVremeRecepta").value;
-    let tezina= document.querySelector(".inputTezinaRecepta").value;
+    let postupak= document.querySelector(".inputPostupak");
+    let naziv = document.querySelector(".inputNazivRecepta");
+    let vreme = document.querySelector(".inputVremeRecepta");
+    let tezina= document.querySelector(".inputTezinaRecepta");
     let knjiga = document.querySelector(".knjigeList");
     let knjigaID= parseInt(knjiga.options[knjiga.selectedIndex].value);
     let sastojciRecepta=[];
@@ -761,24 +761,35 @@ async function dodajReceptDB(){
         sastojciRecepta.push(sastojak);
     }
 
-    if(postupak !== "" && naziv !== "" && vreme !== "" && tezina !== "" && izabraniSastojci.length > 0)
+    if(postupak.value !== "" && naziv.value !== "" && vreme.value !== "" && tezina.value !== "" && izabraniSastojci.length > 0)
     {
-        let noviRecept= new Recept(0,naziv,postupak,tezina,vreme,knjigaID,sastojciRecepta);
+        let noviRecept= new Recept(0,naziv.value,postupak.value,tezina.value,vreme.value,knjigaID,sastojciRecepta);
         let api = new Api();
         let yes = await api.AddRecept(noviRecept);
         if(yes)
         {
-            crtajListuRecepata(divListaRecepta);
+            await crtajListuRecepata(divListaRecepta);
             izabraniSastojci=[];
             let linije = document.querySelectorAll(".linijaIzabraniSastojak");
             for(let lin of linije)
             {                
                 lin.remove();                
             }
-            naziv="";
-            postupak="";
-            vreme="";
-            tezina="";
+            naziv.value="";
+            postupak.value="";
+            vreme.value="";
+            tezina.value="";
+            let sviSastojci= document.querySelectorAll(".divSastojciDB");
+            let kolicina;
+            let checkbox;
+            for(let i=0; i<sviSastojci.length; i++)
+            {
+                    kolicina = sviSastojci[i].querySelector(".inputKolicina");
+                    checkbox = sviSastojci[i].querySelector(".inputCheckbox");
+                    kolicina.value= "";
+                    checkbox.checked=false;
+            }
+
             
         }
     }
@@ -798,7 +809,22 @@ async function dodajSastojak(){
         let api = new Api();
         let yes= await api.AddSastojak(sastojak);
         if(yes){
-            crtajListuSastojka();
+            debugger
+            await crtajListuSastojka();
+            let sviSastojci= document.querySelectorAll(".divSastojciDB");
+            let kolicina;
+            let checkbox;
+            for(let i=0; i<sviSastojci.length; i++)
+            {
+                let s = izabraniSastojci.find(el => el.id == sviSastojci[i].id);
+                if(s != undefined)
+                {
+                    kolicina = sviSastojci[i].querySelector(".inputKolicina");
+                    checkbox = sviSastojci[i].querySelector(".inputCheckbox");
+                    kolicina.value= s.kolicina;
+                    checkbox.checked=true;
+                }
+            }
         }
     }
     else{
@@ -973,6 +999,7 @@ function refreshDesniDiv(oznaka){
         let vreme = document.querySelector(".inputVremeRecepta");
         let kalorije = document.querySelector(".inputKalorijeRecepta");
         let tezina= document.querySelector(".inputTezinaRecepta");
+        let pomDivSastojci= document.querySelector(".pomDivSastojka");
 
         postupak.value="";
         naziv.value="";
@@ -986,6 +1013,8 @@ function refreshDesniDiv(oznaka){
         tezina.readOnly=true;
 
         izmeniReceptDugme.style.display="none";     
+        pomDivSastojci.style.display="none";  
+        
 
         let sviSastojci= document.querySelectorAll(".divSastojciDB");
         for(let i=0; i<sviSastojci.length; i++)
