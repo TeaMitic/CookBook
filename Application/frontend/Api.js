@@ -265,7 +265,7 @@ export class Api{
     }
     async AddRecept(recept)
     {
-        debugger
+        // debugger
         try{
             let response = await fetch(`https://localhost:5001/CookBook/AddRecept/`,{
                 headers : {

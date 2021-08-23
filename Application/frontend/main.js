@@ -751,7 +751,7 @@ async function dodajReceptDB(){
     let knjiga = document.querySelector(".knjigeList");
     let knjigaID= parseInt(knjiga.options[knjiga.selectedIndex].value);
     let sastojciRecepta=[];
-    debugger
+    // debugger
     for(let i=0;i< izabraniSastojci.length;i++)
     {
         let sastojak={
@@ -809,7 +809,7 @@ async function dodajSastojak(){
         let api = new Api();
         let yes= await api.AddSastojak(sastojak);
         if(yes){
-            debugger
+            // debugger
             await crtajListuSastojka();
             let sviSastojci= document.querySelectorAll(".divSastojciDB");
             let kolicina;
